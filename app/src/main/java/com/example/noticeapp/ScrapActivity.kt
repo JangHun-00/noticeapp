@@ -10,10 +10,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ScrapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_scrap)
 
         // toolbar 연결
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // 내비게이션 메뉴 아이템 클릭시 수행
         when (item.itemId){
-            R.id.board -> {}
-            R.id.scrap -> {
-                val scrapIntent = Intent(this, ScrapActivity::class.java)
-                startActivity(scrapIntent)
+            R.id.board -> {
+                val boardIntent = Intent(this, MainActivity::class.java)
+                startActivity(boardIntent)
             }
+            R.id.scrap -> {}
         }
         val layoutDrawer: DrawerLayout = findViewById(R.id.layout_drawer)
         layoutDrawer.closeDrawers() // 내비게이션 뷰 닫기
