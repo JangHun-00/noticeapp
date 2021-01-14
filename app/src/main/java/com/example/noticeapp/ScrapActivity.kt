@@ -38,6 +38,7 @@ class ScrapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             R.id.board -> {
                 val boardIntent = Intent(this, MainActivity::class.java)
                 startActivity(boardIntent)
+                finish()
             }
             R.id.scrap -> {}
         }
@@ -52,6 +53,8 @@ class ScrapActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         {
             layoutDrawer.closeDrawers()
         }
-        super.onBackPressed()
+        else {
+            super.onBackPressed()
+        }
     }
 }

@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.scrap -> {
                 val scrapIntent = Intent(this, ScrapActivity::class.java)
                 startActivity(scrapIntent)
+                finish()
             }
         }
         val layoutDrawer: DrawerLayout = findViewById(R.id.layout_drawer)
@@ -52,6 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             layoutDrawer.closeDrawers()
         }
-        super.onBackPressed()
+        else {
+            super.onBackPressed()
+        }
     }
 }
