@@ -1,4 +1,4 @@
-package com.example.noticeapp
+package com.skku.noticeapp
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.example.noticeapp
+package com.skku.noticeapp
 
 import android.content.Intent
 import android.os.Bundle
