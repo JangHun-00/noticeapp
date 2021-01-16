@@ -3,14 +3,21 @@ package com.skku.noticeapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    val TAG: String = "NoticeApp"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +37,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         naviView.setNavigationItemSelectedListener(this)
 
+        // Cloud Firestore (Firebase DB) 연결
+        val db = Firebase.firestore
+        val notice_list = ArrayList<Notice>()
+        db.collection("notice_list")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result) {
+                        notice_list.add(document.toObject())
+                        //Log.e(TAG, "${document.id} => ${document.data}")
+                    }
+                    //Log.e(TAG, notice_list.size.toString())
+                }
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error getting documents: ", exception)
+                }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

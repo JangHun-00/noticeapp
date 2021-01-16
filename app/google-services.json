@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "641602495718",
+    "project_id": "noticeapp-311c8",
+    "storage_bucket": "noticeapp-311c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641602495718:android:f3e15c7912aaba2e904727",
+        "android_client_info": {
+          "package_name": "com.skku.noticeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "641602495718-17lrjpjn0ik3fkh64t0nlc48vmae7cdp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKn4dyJDXrU_E2uS8QHJDm81umPXvktpk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "641602495718-17lrjpjn0ik3fkh64t0nlc48vmae7cdp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
