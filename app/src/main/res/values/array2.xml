@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="my_array2">
+        <item>전체</item>
+        <item>학사</item>
+        <item>입학</item>
+        <item>취업</item>
+        <item>채용/모집</item>
+        <item>장학</item>
+        <item>행사/세미나</item>
+        <item>일반</item>
+    </string-array>
+</resources>
