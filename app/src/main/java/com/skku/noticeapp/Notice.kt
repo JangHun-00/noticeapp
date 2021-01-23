@@ -1,5 +1,8 @@
 package com.skku.noticeapp
 
+import androidx.room.Entity
+
+@Entity
 class Notice(val no: String = "",
              val name: String = "",
              val link: String = "",

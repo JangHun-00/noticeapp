@@ -46,18 +46,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var mySelectedNoticeBoard: String = "notice_list"
         var mySelectedNoticeOrder: String = "no"
 
-        val items1 = resources.getStringArray(R.array.my_array1)
-        val items2 = resources.getStringArray(R.array.my_array2)
+        val items1 = resources.getStringArray(R.array.my_array2)
+        val items2 = resources.getStringArray(R.array.my_array1)
 
         val myAdapter1 = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items1)
         val myAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items2)
 
-        spinner1.adapter = myAdapter1
-        spinner2.adapter = myAdapter2
+        spinner2.adapter = myAdapter1
+        spinner1.adapter = myAdapter2
 
-        spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (position) {
+        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position1: Int, id: Long) {
+                when (position1) {
                     0 -> {mySelectedNoticeBoard = "notice_list"}
                     1 -> {mySelectedNoticeBoard = "academic_affairs"}
                     2 -> {mySelectedNoticeBoard = "admission"}
@@ -74,9 +74,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
-        spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                when (position) {
+        spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position2: Int, id: Long) {
+                when (position2) {
                     0 -> {mySelectedNoticeOrder = "no"}
                     1 -> {mySelectedNoticeOrder = "date"}
                     else -> {}
@@ -87,10 +87,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
 
+        /*
+        notice_list = arrayListOf(
+                Notice("10000", "[성균관대 좋은민주주의연구센터] 정기 월례포럼 개최 '미국 민주주의 위기와 해법'", "https://www.skku.edu/skku/campus/skk_comm/notice01.do?mode=view&articleNo=87629&article.offset=0&articleLimit=10", "2020-20-20", "9999", "true"),
+                Notice("20000", "‘GAIA-X’#4단계 BK21 미래인문학기반사회혁신창업교육연구단 전문가 초청 강연회", "https://www.skku.edu/skku/campus/skk_comm/notice01.do?mode=view&articleNo=87505&article.offset=0&articleLimit=10", "2020-10-10", "8888", "true")
+        )*/
+
         // Cloud Firestore (Firebase DB) 연결
         val db = Firebase.firestore
         var notice_list = ArrayList<Notice>()
-        db.collection(mySelectedNoticeBoard)
+
+        fun getDatabase(mySelectedNoticeBoard: String, mySelectedNoticeOrder: String): ArrayList<Notice>{
+            //Log.e(TAG, "Board: ${mySelectedNoticeBoard}, Order: ${mySelectedNoticeOrder}")
+            notice_list = ArrayList<Notice>()
+            db.collection(mySelectedNoticeBoard)
                 .orderBy(mySelectedNoticeOrder, Query.Direction.DESCENDING)
                 .limit(50)
                 .get()
@@ -106,74 +116,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .addOnFailureListener { exception ->
                     Log.e(TAG, "Error getting documents: ", exception)
                 }
-
-/*
-        notice_list = arrayListOf(
-                Notice("10000",
-                        "[성균관대 좋은민주주의연구센터] 정기 월례포럼 개최 '미국 민주주의 위기와 해법'",
-                        "https://www.skku.edu/skku/campus/skk_comm/notice01.do?mode=view&articleNo=87629&article.offset=0&articleLimit=10",
-                        "2020-20-20",
-                        "9999",
-                        "true"),
-                Notice("20000",
-                        "‘GAIA-X’#4단계 BK21 미래인문학기반사회혁신창업교육연구단 전문가 초청 강연회",
-                        "https://www.skku.edu/skku/campus/skk_comm/notice01.do?mode=view&articleNo=87505&article.offset=0&articleLimit=10",
-                        "2020-10-10",
-                        "8888",
-                        "true")
-
-        )*/
-
-        // 리사이클러 뷰 생성
-
-        // 갱신 버튼
-
-        filter_apply_btn.setOnClickListener {
-            notice_list = ArrayList<Notice>()
-            db.collection(mySelectedNoticeBoard)
-                    .orderBy(mySelectedNoticeOrder, Query.Direction.DESCENDING)
-                    .limit(50)
-                    .get()
-                    .addOnSuccessListener { result ->
-                        for (document in result) {
-                            notice_list.add(document.toObject())
-                            //Log.e(TAG, "${document.id} => ${document.data}")
-                        }
-                        notice_recyclerview.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                        notice_recyclerview.setHasFixedSize(true)
-                        notice_recyclerview.adapter = NoticeAdapter(notice_list)
-                    }
-                    .addOnFailureListener { exception ->
-                        Log.e(TAG, "Error getting documents: ", exception)
-                    }
-
-            notice_recyclerview.adapter = NoticeAdapter(notice_list)
+            return notice_list
         }
 
-    }
+        getDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
 
-    private fun getDatabaseData(mySelectedNoticeBoard: String, mySelectedNoticeOrder: String): ArrayList<Notice> {
-        // Cloud Firestore에서 해당 필터링의 DB 데이터를 가져오는 함수
-        val db = Firebase.firestore
-        var notice_list = ArrayList<Notice>()
-        // var ascOrDesc = Query.Direction.ASCENDING
-        Log.d(TAG, "${mySelectedNoticeBoard}, ${mySelectedNoticeOrder}")
-        db.collection(mySelectedNoticeBoard)
-                .orderBy(mySelectedNoticeOrder, Query.Direction.DESCENDING)
-                .limit(50)
-                .get()
-                .addOnSuccessListener { result ->
-                    for (document in result) {
-                        notice_list.add(document.toObject())
-                        //Log.e(TAG, "${document.id} => ${document.data}")
-                    }
-                    //Log.e(TAG, "${notice_list[0].no}: ${notice_list[0].name}")
-                    //Toast.makeText(this, "${notice_list[0].no}: ${notice_list[0].name}", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { exception ->
-                    Log.e(TAG, "Error getting documents: ", exception)
-                }
-        return notice_list
+        filter_apply_btn.setOnClickListener {
+            getDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
+        }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

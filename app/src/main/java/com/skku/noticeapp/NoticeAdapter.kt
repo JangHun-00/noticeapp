@@ -1,10 +1,13 @@
 package com.skku.noticeapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>()
@@ -25,6 +28,12 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<No
         holder.dateText.text = noticeList.get(position).date
         holder.readText1.text = "조회수:"
         holder.dateText1.text = "등록일:"
+
+        holder.nameText.setOnClickListener {
+            val webIntent = Intent(holder.itemView.context, WebActivity::class.java)
+            webIntent.putExtra("link", noticeList.get(position).link)
+            startActivity(holder.itemView.context, webIntent, null)
+        }
     }
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
