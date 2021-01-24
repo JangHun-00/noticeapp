@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Notice::class], version = 2)
+@Database(entities = [Notice::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun noticeDao(): NoticeDao
 }

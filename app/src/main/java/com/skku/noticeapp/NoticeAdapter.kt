@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -26,9 +27,9 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<No
     }
 
     override fun onBindViewHolder(holder: NoticeAdapter.CustomViewHolder, position: Int) {
-        holder.noText.text = noticeList.get(position).no
+        holder.noText.text = noticeList.get(position).no.toString()
         holder.nameText.text = noticeList.get(position).name
-        holder.readText.text = noticeList.get(position).read
+        holder.readText.text = noticeList.get(position).read.toString()
         holder.dateText.text = noticeList.get(position).date
         holder.readText1.text = "조회수:"
         holder.dateText1.text = "등록일:"
@@ -46,10 +47,12 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<No
 
         holder.scrapButton.setOnClickListener {
             innerDb.noticeDao().insert(noticeList.get(position))
+            Toast.makeText(holder.itemView.context, "스크랩 완료", Toast.LENGTH_SHORT).show()
         }
     }
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        //var view: View = itemView
         val noText = itemView.findViewById<TextView>(R.id.no_text)
         val nameText = itemView.findViewById<TextView>(R.id.scrap_name_text)
         val readText = itemView.findViewById<TextView>(R.id.scrap_read_text)

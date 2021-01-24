@@ -27,7 +27,7 @@ class NoticeScrapAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: NoticeScrapAdapter.CustomViewHolder, position: Int) {
         holder.nameText.text = noticeList.get(position).name
-        holder.readText.text = noticeList.get(position).read
+        holder.readText.text = noticeList.get(position).read.toString()
         holder.readText1.text = "조회수:"
 
         holder.nameText.setOnClickListener {

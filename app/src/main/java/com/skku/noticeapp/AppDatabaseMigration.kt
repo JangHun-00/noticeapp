@@ -7,11 +7,11 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     override fun migrate(database: SupportSQLiteDatabase) {
         database.execSQL("""
                 CREATE TABLE new_notice (
-                    no TEXT,
+                    no INTEGER,
                     name TEXT PRIMARY KEY NOT NULL,
                     link TEXT,
                     date TEXT,
-                    read TEXT,
+                    read INTEGER,
                     is_new TEXT
                 )
                 """.trimIndent())
