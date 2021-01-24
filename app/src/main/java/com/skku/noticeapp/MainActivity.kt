@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -97,7 +98,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val db = Firebase.firestore
         var notice_list = ArrayList<Notice>()
 
-        fun getDatabase(mySelectedNoticeBoard: String, mySelectedNoticeOrder: String): ArrayList<Notice>{
+        fun getFBDatabase(mySelectedNoticeBoard: String, mySelectedNoticeOrder: String): ArrayList<Notice>{
             //Log.e(TAG, "Board: ${mySelectedNoticeBoard}, Order: ${mySelectedNoticeOrder}")
             notice_list = ArrayList<Notice>()
             db.collection(mySelectedNoticeBoard)
@@ -119,10 +120,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             return notice_list
         }
 
-        getDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
+        getFBDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
 
         filter_apply_btn.setOnClickListener {
-            getDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
+            getFBDatabase(mySelectedNoticeBoard, mySelectedNoticeOrder)
         }
 
     }

@@ -11,12 +11,12 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 
-class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<NoticeAdapter.CustomViewHolder>()
+class NoticeScrapAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<NoticeScrapAdapter.CustomViewHolder>()
 {
     lateinit var parentContext: Context
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeAdapter.CustomViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoticeScrapAdapter.CustomViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.scrap_list_item, parent, false)
         parentContext = parent.context
         return CustomViewHolder(view)
     }
@@ -25,13 +25,10 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<No
         return noticeList.size
     }
 
-    override fun onBindViewHolder(holder: NoticeAdapter.CustomViewHolder, position: Int) {
-        holder.noText.text = noticeList.get(position).no
+    override fun onBindViewHolder(holder: NoticeScrapAdapter.CustomViewHolder, position: Int) {
         holder.nameText.text = noticeList.get(position).name
         holder.readText.text = noticeList.get(position).read
-        holder.dateText.text = noticeList.get(position).date
         holder.readText1.text = "조회수:"
-        holder.dateText1.text = "등록일:"
 
         holder.nameText.setOnClickListener {
             val webIntent = Intent(holder.itemView.context, WebActivity::class.java)
@@ -44,19 +41,16 @@ class NoticeAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapter<No
             AppDatabase::class.java, "notice"
         ).allowMainThreadQueries().build()
 
-        holder.scrapButton.setOnClickListener {
-            innerDb.noticeDao().insert(noticeList.get(position))
+        holder.scrapCancelButton.setOnClickListener {
+            innerDb.noticeDao().delete(noticeList.get(position))
         }
     }
 
     class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val noText = itemView.findViewById<TextView>(R.id.no_text)
         val nameText = itemView.findViewById<TextView>(R.id.scrap_name_text)
         val readText = itemView.findViewById<TextView>(R.id.scrap_read_text)
-        val dateText = itemView.findViewById<TextView>(R.id.date_text)
-        val scrapButton = itemView.findViewById<Button>(R.id.scrap_cancel_button)
+        val scrapCancelButton = itemView.findViewById<Button>(R.id.scrap_cancel_button)
         val readText1 = itemView.findViewById<TextView>(R.id.scrap_read_text1)
-        val dateText1 = itemView.findViewById<TextView>(R.id.date_text1)
     }
 
 }
