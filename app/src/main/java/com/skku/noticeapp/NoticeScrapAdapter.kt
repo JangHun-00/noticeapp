@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -43,6 +44,9 @@ class NoticeScrapAdapter(val noticeList: ArrayList<Notice>) : RecyclerView.Adapt
 
         holder.scrapCancelButton.setOnClickListener {
             innerDb.noticeDao().delete(noticeList.get(position))
+            noticeList.remove(noticeList.get(position))
+            notifyDataSetChanged()
+            Toast.makeText(holder.itemView.context, "스크랩 취소", Toast.LENGTH_SHORT).show()
         }
     }
 
